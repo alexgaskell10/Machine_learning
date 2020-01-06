@@ -1,0 +1,122 @@
+\documentclass[12pt,twoside]{article}
+
+\newcommand{\reporttitle}{Maths for Machine Learning}
+\newcommand{\reportauthor}{Alexander Gaskell}
+\newcommand{\reportemail}{aeg19@imperial.ac.uk}
+\newcommand{\reporttype}{Coursework 4}
+\newcommand{\cid}{01813313}
+
+% include files that load packages and define macros
+\input{includes} % various packages needed for maths etc.
+\input{notation} % short-hand notation and macros
+
+\renewcommand{\thesection}{\Roman{section}} 
+\renewcommand{\thesubsection}{\thesection.\roman{subsection}}
+
+\usepackage{float}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% front page
+\input{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Main document
+\section{}
+LDA performs better for classification than PCA/whitened PCA, as seen by the error rate being lower for \autoref{fig:lda} than for \autoref{fig:pca} and \autoref{fig:wpca}. This is because LDA is a supervised learning method hence the class labels exploited during optimization. PCA/WPCA is unsupervised hence the labels are not used in the problem and PCA is not explicitly defined for classification. LDA is designed to make data samples the same class look more similar while samples from different classes are made to look as dissimilar as possible. This means LDA performs better in dimensionality reduction for classification tasks than PCA/WPCA, as illustrated in this problem.
+
+\begin{figure}[H]
+    % \ContinuedFloat*
+    \centering
+    \includegraphics[width = 0.8\hsize]{./figures/pca.png}
+    \caption[...]{Error rate vs number of components used in model, after extracting features using PCA. Error rate is classification error rate for facial recognition protocol using KNN with features as the components extracted after preforming PCA.}
+    \label{fig:pca}
+\end{figure}
+
+\begin{figure}[H]
+    % \ContinuedFloat*
+    \centering
+    \includegraphics[width = 0.8\hsize]{./figures/wpca.png}
+    \caption[...]{Equivalent to \autoref{fig:pca} but using whitened PCA to extract features.}
+    \label{fig:wpca}
+\end{figure}
+
+\begin{figure}[H]
+    % \ContinuedFloat*
+    \centering
+    \includegraphics[width = 0.8\hsize]{./figures/lda.png}
+    \caption[...]{Equivalent to \autoref{fig:pca} but using LDA to extract features.}
+    \label{fig:lda}
+\end{figure}
+
+\newpage
+\section{}
+
+\subsection{}
+
+The Lagrangian can be formulated as:
+\begin{align}
+    \mathcal{L}(\mathbf{w}, b, \xi, a_i, r_i) = \frac{1}{2} \mathbf{w^{\top} S_t w} + C \sum_{i=1}^{n} \xi_i - \sum^n_{i=1}a_i (y_i(\mathbf{w^{\top} x_i} + b) - 1 + \xi) -\sum_{i=1}^n r_i\xi_i
+\end{align}
+
+Taking derivatives and setting equal to zero:
+\begin{align}
+     & \frac{\partial \mathcal{L}}{\partial \mathbf{w}} = \mathbf{w S_t} -  \sum^n_{i=1} a_i y_i \mathbf{x_i} = 0 \iff \mathbf{w_0} = \mathbf{S_t}^{-1}  \sum^n_{i=1} a_i y_i \mathbf{x}_i
+     \\
+     & \frac{\partial \mathcal{L}}{\partial b} = \sum^n_{i=1} a_i y_i = 0
+     \\
+     & \frac{\partial \mathcal{L}}{\partial \xi_i} = C - a_i - r_i = 0
+\end{align}
+
+Substituting these back in we get the dual problem:
+\begin{align}
+    & \max_\mathbf{a} \mathcal{L} (\mathbf{a}) = \mathbf{a^\top 1} - \frac{1}{2} \mathbf{a^\top K}_y \mathbf{a}
+    \\
+    & \text{subject to } \mathbf{a} ^\top \mathbf{y} = 0, 0 \leq a_i \leq C
+\end{align}
+
+Where $\mathbf{K}_y = [y_i y_j \mathbf{x}_i^\top \mathbf{S_t}^{-1} \mathbf{x}_j]$. \\
+
+Optimal $b$ can be found by first considering the complementary slackness condition:
+\begin{align}
+    a_i > 0 \implies y_i(\mathbf{w_0^\top x_i} + b) = 1
+\end{align}
+This means we can find optimal $b, b_0$ from any support vector. A more stable solution can be found by taking the average over all support vectors:
+\begin{align}
+    b_0 = \frac{1}{N_\mathcal{S}} \sum_{x_i \in \mathcal{S}} (y_i - \mathbf{w^\top x_i})
+\end{align}
+Where $\mathcal{S}$ is the set of support vectors.
+\\
+
+We compute $\xi_i$ as follows:
+\begin{align}
+    \xi_i = \operatorname{max} (0, 1-y_i(\mathbf{w^\top x_i} + b) ), \quad i = 1 ,..., n
+\end{align}
+Optimal $\xi$ can be computed by plugging $w_0, b_0$ into this equation.
+
+
+\newpage 
+
+\subsection{}
+The previous method relies upon $S_t$ being invertible. This may not be the case in small sample size problems, for example, where the number of features exceeds the number of samples. In this case, given we have 2000 samples, if each $\mathbf{x_i}$ had more than $2000$ features, we would be faced with this issue. In this case, $S_t = \mathbf{X X^\top, X} \in \mathcal{R} ^{F x F}$ would be rank deficient as its rank would be at most $n$ and its dimensions would be $F$, with $F > n$. Here $S_t$ would be singluar so the above method would fail. \\
+
+A workaround would be to reduce the dimensions of $S_t$ first, it becomes full rank and therefore invertible. One such way would be to perform LDA first. This involves finding a transformation so to maximise the separability of different classes in a low-dimensional latent space while also minimizing the variance of samples from the same class. This reduces the dimensions of $\mathbf{S_t}$ to at most $C-1$ with C being the number of classes (2 in this case). We could then solve the SVM problem as detailed above to obtain an SVM classifier because the new scatter matrix is invertible. \\
+
+This approach of first running LDA could be conducted as follows:
+
+\begin{enumerate}
+    \item Perform whitening on $\mathbf{S_t}$ (i.e. compute $\mathbf{U = X(I-M)V_w \Lambda_w^{-1}}$)
+    \item Compute projected data $\mathbf{\Tilde{X_b} = U^\top XM}$
+    \item Perform eigenanalysis on $\mathbf{\Tilde{X_b}^\top \Tilde{X_b} = Q\Lambda_bQ^\top}$
+    \item Compute the final transformation $\mathbf{W_0 = UQ_0}$
+\end{enumerate}
+
+Now we could use our SVM classifier using our transformed dataset comprising of $\mathbf{\Tilde{X}} \in \mathcal{R}^{n x (C-1)}$ knowing that $\mathbf{\Tilde{X} \Tilde{X}^\top}$ is full rank. In this case $C = 2$ so $\mathbf{\Tilde{X} \Tilde{X}^\top} \in \mathcal{R}$, hence the new scatter matrix would be a scalar, therefore it is invertible. \\
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

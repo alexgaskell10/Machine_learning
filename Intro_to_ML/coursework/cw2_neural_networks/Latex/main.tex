@@ -1,0 +1,183 @@
+\documentclass[11pt,twoside]{article}
+
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{float}
+
+\newcommand{\reporttitle}{Introduction to Machine Learning}
+
+\newcommand{\reporttype}{Coursework 2 \\ \vspace{0.5cm} Neural Networks}
+\newcommand{\probdef}[1]{\textbf{Problem:}  #1 \\ \\ \textbf{Answer:}}
+
+% include files that load packages and define macros
+\input{_config/includes.tex} % various packages needed for maths etc.
+\input{_config/notation.tex} % short-hand notation and macros
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\parindent}{1cm} % Default is 15pt.
+
+\begin{document}
+% front page
+\input{_config/titlepage.tex}
+
+\thispagestyle{empty}
+\renewcommand{\contentsname}{Table of Contents}
+\setcounter{tocdepth}{2}
+{\hypersetup{linkcolor=black} % Locally black links so they don't stand out here
+\tableofcontents
+% \addtocontents{toc}{\par\nobreak \mbox{}\hfill{\bf Page}\par\nobreak}
+% \newpage
+%
+
+% \addtocontents{lot}{\par\nobreak\textbf{{\scshape Table} \hfill Page}\par\nobreak}
+%
+\listoffigures
+% \addtocontents{lof}{\par\nobreak\textbf{{\scshape Figure} \hfill Page}\par\nobreak}
+\listoftables
+
+}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Main document
+
+\setcounter{page}{1}
+\input{body/introduction.tex}
+\input{body/part2.tex}
+
+\newpage
+\input{body/part3.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+% ==================================================== %
+%% APPENDICES -----------------------------------------%
+% ==================================================== %
+\newpage
+\begin{appendices}
+\input{appendix/figures.tex}
+% \newpage
+% \input{appendix/results.tex}
+% \newpage
+% \input{appendix/code.tex}
+\end{appendices}
+
+\end{document}
+
+% \begin{algorithm}
+% \footnotesize
+% \SetAlgoLined
+% \KwResult{Get feature \& value for splitting to deliver max entropy gain}
+%  \For{feature in Features}{
+%   sort data by feature\;
+%   \For{unique value in feature}{
+%   Split data into $subset_A, subset_B$ using this value\;
+%     \For{$subset_A, subset_B$}{
+%     Compute entropy for sub dataset (using \autoref{eq:entropy})\;
+%     }
+%   Compute entropy gain from splitting on feature (using \autoref{eq:entropy_gain})\;
+%   Return value \& entropy gain for max entropy gain\;}
+%   Return feature \& value for max entropy gain from splitting on each feature\;
+%  }
+% \caption{Determining splitting feature and feature value}\label{alg:splitting}
+% \end{algorithm}
+
+% \begin{table}[h!]
+% \small\addtolength{\tabcolsep}{-5pt}
+% \centering
+% \begin{tabular}{|
+% >{\columncolor[HTML]{EFEFEF}}l |l|l|}
+% \hline
+%               & \cellcolor[HTML]{EFEFEF}\textbf{Unpruned} & \cellcolor[HTML]{EFEFEF}\textbf{Pruned} \\ \hline
+% \textbf{Clean} & 0.971                                     & 0.969                                  \\ \hline
+% \textbf{Noisy} & 0.801                                     & 0.880                                   \\ \hline
+% \end{tabular}
+% \caption[Classification Rates for Datasets Before and After Pruning]{Classification rates for datasets before and after pruning}
+% \label{tab:rates}
+% \end{table}
+
+% \begin{figure}
+% \makebox[\linewidth][c]{%
+% \begin{subfigure}[b]{.6\textwidth}
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{figures/depth_plot.pdf}
+%     \caption{Classification accuracy against the maximum depth of the trees.}
+%     \label{fig:depth}
+% \end{subfigure}%
+% \begin{subfigure}[b]{.6\textwidth}
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{figures/nodes_plot.pdf}
+%     \caption{Classification accuracy against the number of nodes in the trees.}
+%     \label{fig:nodes}
+%     \end{subfigure}%
+% }
+% \caption[Effects of Pruning on Depth and Sparseness]{The effects of pruning on max tree depth and the number of nodes in the tree (both excluding leaves), and how these correlate with classification accuracy. In both plots, 20 trees were trained then tested before and after pruning.}
+% \label{fig:pruning_effect_overview}
+% \end{figure}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \textcolor{red}{use an algoritm environment please}
+% \\
+% \begin{algorithm}
+% \SetAlgoLined
+% \KwResult{Write here the result }
+%  initialization\;
+%  \While{While condition}{
+%   instructions\;
+%   \eIf{condition}{
+%   instructions1\;
+%   instructions2\;
+%   }{
+%   instructions3\;
+%   }
+%  }
+% \caption{How to write algorithms}
+% \end{algorithm}
+
+
+
+
+% \begin{itemize}
+%     \item if the dataset has only one label, returns a leaf dictionary
+%     \item else it finds optimal split, splits the dataset and runs the algorithm again on both parts of the dataset (left and right branches)
+% \end{itemize}
+
+% Finding the optimal split is the most complex part of the algorithm. The process of finding optimal split is described below:
+
+% \begin{itemize}
+%     \item First, the data is sorted based on the values of a single feature.
+%     \item Second, the unique values of that feature are recorded.
+%     \item Each of these unique values are used as split values, and the data is split into two based on whether the feature values are higher or lower than the split value.
+%     \item For each of the resulting subsets, the entropy values are calculated using the formula 
+    
+
+    
+%     \item For a given split value, the gain is calculated using the entropy values of its subsets (calculated in the last step). The gain is calculated using the formula:
+    
+
+    
+%     \item This is repeated for each possible split value to find the split value that results in the highest gain. This is the optimal split value for the given feature.
+%     \item All of the previous steps are repeated for each feature in the dataset, and the feature with the highest maximum gain is chosen as the best feature to split the dataset on. The split value that gives the maximum gain for this feature is used for the split. 
+% \end{itemize}
+
+% \begin{align}
+%     Gain(S_{all}, S_{left},S_{right}) & =H(S_{all}) - Remainder(S_{left},S_{right}), \\
+%     H(dataset) &= - \sum_{k=1}^{k=K}p_k*\log_2(p_k), \\
+%     Remainder(S_{left}, S_{right}) &= \frac{|S_{left}|}{|S_{left}|+|S_{right}|}H(S_{left})+\frac{|S_{right}|}{|S_{left}|+|S_{right}|}H(S_{right})
+% \end{align}

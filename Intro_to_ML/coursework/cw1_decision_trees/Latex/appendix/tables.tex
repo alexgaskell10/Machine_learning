@@ -1,0 +1,162 @@
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+\section{Tables}
+\label{app:results}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+\subsection{Unpruned Clean:} \\ 
+\label{sec:data_unpruned_clean}
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-5pt}
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|}
+\hline
+                       & \cellcolor[HTML]{EFEFEF}\textbf{Room 1 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 2 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 3 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 4 predicted} \\ \hline
+\textbf{Room 1 Actual} & 0.986                                             & 0.000                                             & 0.006                                             & 0.008                                             \\ \hline
+\textbf{Room 2 Actual} & 0.000                                             & 0.959                                             & 0.041                                             & 0.000                                             \\ \hline
+\textbf{Room 3 Actual} & 0.001                                             & 0.044                                             & 0.949                                             & 0.006                                             \\ \hline
+\textbf{Room 4 Actual} & 0.008                                             & 0.000                                             & 0.003                                             & 0.990                                             \\ \hline
+\end{tabular}
+\caption[Metrics for Clean Unpruned]{Unpruned clean confusion matrix}
+\label{tab:confusion_clean_unpruned}
+\end{table}
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-5pt}
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+                                           & \textbf{Room 1} & \textbf{Room 2} & \textbf{Room 3} & \textbf{Room 4} \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{Recall}    & 0.986           & 0.959           & 0.949           & 0.990           \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{Precision} & 0.991           & 0.957           & 0.951           & 0.986           \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{F1}        & 0.988           & 0.958           & 0.950           & 0.988           \\ \hline
+\end{tabular}
+\caption[]{Average recall, precision and F1 for the unpruned clean dataset}
+\label{tab:RPF_unpruned_clean}
+\end{table}
+
+\subsection{Pruned Clean:}
+\label{sec:data_pruned_clean}
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-5pt}
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|}
+\hline
+                       & \cellcolor[HTML]{EFEFEF}\textbf{Room 1 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 2 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 3 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 4 predicted} \\ \hline
+\textbf{Room 1 Actual} & 0.992                                             & 0.000                                             & 0.007                                             & 0.002                                             \\ \hline
+\textbf{Room 2 Actual} & 0.000                                             & 0.959                                             & 0.041                                             & 0.000                                             \\ \hline
+\textbf{Room 3 Actual} & 0.007                                             & 0.047                                             & 0.939                                             & 0.007                                             \\ \hline
+\textbf{Room 4 Actual} & 0.009                                             & 0.000                                             & 0.004                                             & 0.987                                             \\ \hline
+\end{tabular}
+\caption[]{Pruned clean confusion matrix}
+\label{tab:confusion_clean_pruned}
+\end{table}
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-5pt}
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+                                           & \textbf{Room 1} & \textbf{Room 2} & \textbf{Room 3} & \textbf{Room 4} \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{Recall}    & 0.992           & 0.959           & 0.939           & 0.987           \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{Precision} & 0.984           & 0.953           & 0.949           & 0.991           \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{F1}        & 0.988           & 0.956           & 0.944           & 0.989           \\ \hline
+\end{tabular}
+\caption[Metrics for Clean Pruned]{Average recall, precision and F1 for the pruned clean dataset}
+\label{tab:RPF_pruned_clean}
+\end{table}
+
+\newpage
+
+\subsection{Unpruned Noisy:}\\
+\label{sec:data_unpruned_noisy}
+
+
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-5pt}
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|}
+\hline
+                       & \cellcolor[HTML]{EFEFEF}\textbf{Room 1 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 2 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 3 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 4 predicted} \\ \hline
+\textbf{Room 1 Actual} & 0.791                                             & 0.061                                             & 0.066                                             & 0.082                                             \\ \hline
+\textbf{Room 2 Actual} & 0.056                                             & 0.809                                             & 0.085                                             & 0.050                                             \\ \hline
+\textbf{Room 3 Actual} & 0.056                                             & 0.073                                             & 0.800                                             & 0.072                                             \\ \hline
+\textbf{Room 4 Actual} & 0.077                                             & 0.044                                             & 0.071                                             & 0.808                                             \\ \hline
+\end{tabular}
+\caption[Metrics for Noisy Unpruned]{Unpruned Noisy Confusion Matrix}
+\label{tab:confusion_noisy_unpruned}
+\end{table}
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-5pt}
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+                                           & \textbf{Room 1} & \textbf{Room 2} & \textbf{Room 3} & \textbf{Room 4} \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{Recall}    & 0.791           & 0.809           & 0.799           & 0.808           \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{Precision} & 0.807           & 0.820           & 0.782           & 0.799           \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{F1}        & 0.799           & 0.815           & 0.790           & 0.803           \\ \hline
+\end{tabular}
+\caption[]{Average recall, precision and F1 for the unpruned noisy dataset}
+\label{tab:RPF_unpruned_noisy}
+\end{table}
+
+\subsection{Pruned Noisy:}
+\label{sec:data_pruned_noisy}
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-5pt}
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|}
+\hline
+                       & \cellcolor[HTML]{EFEFEF}\textbf{Room 1 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 2 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 3 Predicted} & \cellcolor[HTML]{EFEFEF}\textbf{Room 4 predicted} \\ \hline
+\textbf{Room 1 Actual} & 0.902                                             & 0.023                                             & 0.032                                             & 0.043                                             \\ \hline
+\textbf{Room 2 Actual} & 0.039                                             & 0.887                                             & 0.050                                             & 0.023                                             \\ \hline
+\textbf{Room 3 Actual} & 0.044                                             & 0.066                                             & 0.853                                             & 0.036                                             \\ \hline
+\textbf{Room 4 Actual} & 0.053                                             & 0.028                                             & 0.038                                             & 0.881                                             \\ \hline
+\end{tabular}
+\caption[Metrics for Noisy Pruned]{Pruned noisy confusion matrix}
+\label{tab:confusion_noisy_pruned}
+\end{table}
+
+\begin{table}[H]
+\small\addtolength{\tabcolsep}{-5pt}
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+                                           & \textbf{Room 1} & \textbf{Room 2} & \textbf{Room 3} & \textbf{Room 4} \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{Recall}    & 0.902           & 0.887           & 0.853           & 0.881           \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{Precision} & 0.869           & 0.883           & 0.876           & 0.896           \\ \hline
+\cellcolor[HTML]{EFEFEF}\textbf{F1}        & 0.885           & 0.885           & 0.865           & 0.888           \\ \hline
+\end{tabular}
+\caption[]{Average recall, precision and F1 for the pruned noisy dataset}
+\label{tab:RPF_pruned_noisy}
+\end{table}
+
+% \subsection{Global Rates and Errors}
+% \label{sec:errors_and_rates}
+
+
+
+% \begin{table}[H]
+% \small\addtolength{\tabcolsep}{-5pt}
+% \centering
+% \begin{tabular}{|
+% >{\columncolor[HTML]{EFEFEF}}l |l|l|}
+% \hline
+%               & \cellcolor[HTML]{EFEFEF}\textbf{Unpruned} & \cellcolor[HTML]{EFEFEF}\textbf{Pruned} \\ \hline
+% \textbf{Clean} & 0.029                                     & 0.031                                   \\ \hline
+% \textbf{Noisy} & 0.199                                     & 0.120                                   \\ \hline
+% \end{tabular}
+% \caption{Classification Errors for Datasets Before and After Pruning}
+% \label{tab:errors}
+% \end{table}
+

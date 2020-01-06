@@ -1,0 +1,171 @@
+\documentclass[12pt,twoside]{article}
+
+\newcommand{\reporttitle}{Maths for Machine Learning}
+\newcommand{\reportauthor}{Alexander Gaskell}
+\newcommand{\reporttype}{Coursework 3}
+\newcommand{\cid}{01813313}
+
+% include files that load packages and define macros
+\input{includes} % various packages needed for maths etc.
+\input{notation} % short-hand notation and macros
+
+\renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% front page
+\input{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Main document
+\section{}
+
+\subsection{}
+\textbf{[5 marks] By first finding the maximum likelihood solution for the parameters $\sigma^2$ and $w$ in terms of $\Phi$, plot the predicted mean at test points in the interval $[-0.3, 1.3]$ in the case of polynomial basis functions of order $0, 1, 2, 3$ and order $11$. Plot all the curves on the same axes, showing also the data.}
+\bigbreak
+The maximum likelihood estimator is found by the following (As per the Piazza question I will not derive this result):
+\begin{align}
+    \mathbf{\theta_{ML} = (\Phi^\top \Phi)^{-1}\Phi^\top y}
+\end{align}
+Where $\mathbf{\Phi}$ is the design matrix, and is defined by:
+\begin{align}=
+    \mathbf{\Phi} = \colvec{\phi^\top(\mathbf{x}_1),\vdots,\phi^\top (\mathbf{x}_N)} = \begin{bmatrix} 
+    \phi_0(\mathbf{x}_1) & ... & \phi_{K-1}(\mathbf{x}_1) \\ \vdots & \ddots & \vdots \\ \phi_0(\mathbf{x}_N) & ... & \phi_{K-1}(\mathbf{x}_N)
+    \end{bmatrix} \in \mathbb{R}^{NxK}
+\end{align}
+
+The max likelihood value for $\sigma^2$ can be derived as follows:
+\begin{align}
+    \operatorname{log} p(\mathcal{Y} | \mathcal{X}, \boldsymbol{\theta}, \sigma^2) 
+    & = \sum^{N}_{n=1} \operatorname{log} \mathcal{N} (y_n | \mathbf{w}^\top \boldsymbol{\phi}(x_i), \sigma^2) \\
+    & = \sum^{N}_{n=1} 
+    \begin{pmatrix} 
+    -\frac{1}{2} \operatorname{log}(2\pi) - \frac{1}{2} \operatorname{log} \sigma^2 -\frac{1}{2\sigma^2}(y_n - \mathbf{w}^\top \boldsymbol{\phi}(x_i))^2
+    \end{pmatrix} \\
+    & = -\frac{N}{2} \operatorname{log} \sigma^2 - \frac{1}{2\sigma^2} \sum^{N}_{n=1} (y_n - \mathbf{w}^\top \boldsymbol{\phi}(x_i))^2 + \operatorname{constant} \\
+    & = -\frac{N}{2} \operatorname{log} \sigma^2 - \frac{s}{2\sigma^2} + \operatorname{constant}
+\end{align}
+
+Differentiate with respect to $\sigma^2$ and set equal to zero to find the maximum:
+
+\begin{align}
+    & \frac{\partial \operatorname{log} p(\mathcal{Y} | \mathcal{X}, \boldsymbol{\theta}, \sigma^2)}{\partial \sigma^2} = -\frac{N}{2\sigma^2} + \frac{s}{2\sigma^4} = 0 \\
+    & \iff \frac{N}{2\sigma^2} = \frac{s}{2\sigma^4}
+\end{align}
+
+This gives our maximum likelihood estimate for $\sigma^2$:
+
+\begin{align}
+    \sigma^2_{ML} = \frac{s}{N} = \frac{1}{N}\sum^{N}_{n=1} (y_n - \mathbf{w}^\top \boldsymbol{\phi}(x_i))^2
+\end{align}
+
+\begin{figure}[h]
+\centering % this centers the figure
+\includegraphics[width = 0.9\hsize] {./figures/polynomial.pdf}
+\caption{Plots of generated data points and the predicted means of polynomial basis functions of orders 0,1,2,3,11 (K = order of basis function)}% caption of the figure
+\label{fig:poly}
+\end{figure}
+
+
+
+
+
+\subsection{}
+\textbf{[5 marks] Repeat the previous part but this time with trigonometric basis functions of orders 1 and 11. Use test points in $[-1, 1.2]$ to see the periodicity. Note that your basis functions should be of size $2J + 1$ for order $J$ (i.e., don’t forget the bias term)}
+\\
+
+See figure \ref{fig:trig} for illustration.
+
+\begin{figure}[h]
+\centering % this centers the figure
+\includegraphics[width = 0.9\hsize] {./figures/trigonometric.pdf}
+\caption{Plots of generated data points and the predicted means of trigonometric basis functions of orders 1,11 (K = order of basis function)}% caption of the figure
+\label{fig:trig}
+\end{figure}
+
+\newpage
+
+
+\subsection{}
+\textbf{[6 marks] In this part, you will investigate over-fitting with leave-one- out cross validation. You should use trigonometric basis functions of order 0 to 10 inclusive. For each choice, use leave-one-out cross-validation to estimate the average squared test error. Plot this average error on a graph against order of basis together. On the same graph plot also the maximum likelihood value for $\sigma$.}
+\\ \\
+See figure \ref{fig:error} for illustration.
+
+\begin{figure}[h]
+\centering % this centers the figure
+\includegraphics[width = 0.9\hsize] {./figures/sq_error_variance.pdf}
+\caption{Plots of generated data points and the predicted means of trigonometric basis functions of orders 0,1,2,3,11}% caption of the figure
+\label{fig:error}
+\end{figure}
+
+\newpage
+
+\subsection{}
+\textbf{[6 marks] Briefly describe the concept of over-fitting, using your graph in the previous part as an illustrative example. You should also refer to your plots from the first two parts of this question.}\\
+
+Overfitting is when the model fits the training data too closely and consequently does not generalise unseen data well. Specifically, overfitting occurs when the empirical error observed on the training data underestimates the true error of the model. \\
+
+This is well illustrated in figure \ref{fig:error}:
+the x-axis is the order of basis ($K$) of the trigonometric basis functions, so can be thought of as the "complexity" of the model. The squared errors are obtained from leave-one-out cross validation, so represent the true/test error of the model, and the variances are the maximum likelihood variance estimations, so represent the training error of the model. The plots begin by moving in tandem with both training and test error falling. This is because the model initially underfits when the order of the basis functions is low. However, test and training error diverge once order of basis exceeds 6, hence overfitting starts becoming a problem for $K \geq 6$. \\
+
+This occurs because increasing the complexity of the model means the model has more free parameters and can therefore approximate a larger number of functions well. Consequently, fitting a more complex model to the same training data set will mean the model will always fit the data better (than a less complex version of that model), hence the training error will always fall if when the complexity of the model rises. However, at a certain point, increasing the complexity of the model will give it sufficient free parameters to model noise in the training data, which is not generalizable given it is random. This is why we see the test error rising when order of basis is increased above 6. \\
+
+Overfitting can also be seen in figures \ref{fig:poly} and \ref{fig:trig}: beginning from $K=0$, if we increase $K$ then the plot does a better job of of fitting the data points; however, once we set $K=11$, the model does a very good job of hitting every data point but has poor generalisation properties. This can be seen for $K=11$, figure \ref{fig:poly}, with the tails of the plot shooting nearly vertically upwards. Additionally, for $K=11$, figure \ref{fig:trig}, the model appears to follow noise in the data, and so it is unlikely that this model would generalise better to new data than a smoother, lower-order trigonometric model. In both of these cases, the model performs well on the training data but would perform poorly on unseen data, so this illustrates clearly the concept of overfitting.
+
+\newpage
+
+\section{}
+
+\subsection{}
+\textbf{[6 marks] Write a python function lml(alpha, beta, Phi, Y) that returns the log-marginal likelihood, and a function grad\_lml(alpha, beta, Phi, Y) that returns the gradient of the log-marginal likelihood with respect to the vector $[\alpha, \beta]$.}
+
+
+\subsection{}
+\textbf{[6 marks] For the given dataset and the linear basis functions (i.e., polynomial of order 1), maximize the log-marginal likelihood with respect to $\alpha$ and $\beta$ using gradient descent. Show your steps on a contour plot. It is up to you, where you start, but be careful that the log-marginal likelihood varies over several orders of magnitude, so you may have to start fairly close. You may have to clip your contours to show anything interesting on the plot. Don’t use a log-scale for $\alpha$ and $\beta$ (though this would be sensible). Report your results for the maximum.} \\
+
+Convergence results: $\alpha = 0.425, \beta = 0.450$
+
+\begin{figure}[h]
+\centering % this centers the figure
+\includegraphics[width = 0.9\hsize] {./figures/log_marginal_likelihood.pdf}
+\caption{Contour plot of log marginal likelihood with }% caption of the figure
+\label{fig:log_marginal_likelihood}
+\end{figure}
+
+
+
+\subsection{}
+\textbf{[3 marks] In the case of trigonometric basis functions, compute the maximum of the log-marginal likelihood for orders 0 to 12 inclusive using gradient descent (make sure you choose good starting values and a small step size with plenty of iterations). Plot these values on a graph against the order of the basis functions. Compare your answer to your cross-validation graph in question 1c) and describe briefly the merits of the two approaches.}\\
+
+The results from figure \ref{fig:basis_vs_max_mar_likeli} are consistent with those of the cross-validation graph in figure \ref{fig:error} in that they both initially show underfitting (the max log marginal likelihood is rising until order of basis = 4), then they level off, and then they show overfitting when order of basis is above 6. This is unsurprising given that maximising the log marginal likelihood is an alternative method of model selection to cross validation. The marginal likelihood encapsulates the trade off between increasing model complexity with fit of the data, in that it "penalises" models which are too complex. This penalty is what makes the log marginal likelihood fall for order of basis above 6, analogously to the way that the test error rises when using cross validation because more complex functions often do not generalise as well as less complex functions.
+
+
+\begin{figure}[h]
+\centering % this centers the figure
+\includegraphics[width = 0.9\hsize] {./figures/basis_vs_max_mar_likeli.pdf}
+\caption{Plot of max of log marginal likelihood vs order of basis (using trigonometric basis functions)}% caption of the figure
+\label{fig:basis_vs_max_mar_likeli}
+\end{figure}
+
+
+
+\subsection{}
+\textbf{[8 marks] For $\alpha = 1$ and $\beta = 0.1$ take 5 samples from the posterior distribution over the weights in the case of 10 Gaussian basis functions equally spaced between −0.5 and 1 (inclusive) with scale 0.1. Use these samples to plot the noise-free predicted function values at the test points (i.e., with y-values $\mathbf{\Phi^*w}$, where $\mathbf{\Phi^*}$ is the matrix of stacked basis functions evaluated at the test inputs $x^*$). Plot also the predictive mean and 2 standard deviation error bars as a shaded region. Don’t include the noise in your shaded region, but do add also dotted curves indicating two standard deviations including the noise (i.e., dotted for $y^*$ and shaded for $\mathbf{\Phi^*w}$). Use test points in the interval $[−1, 1.5]$ to show the behavior away from the data and away from the basis function centers. Plot the samples in a different color and use a low alpha (in the sense of opacity!) for the shaded region. Plot also the data.}
+
+\begin{figure}[h]
+\centering % this centers the figure
+\includegraphics[width = 0.9\hsize] {./figures/exp_with_errs.pdf}
+\caption{Plot of noise-free predicted function values $y^*$ using 5 samples taken from the posterior distribution over weights and the predictive mean. Additionally, error bars (2 standard deviations without noise) and error bars (2 standard deviations with noise) have been plotted above.}% caption of the figure
+\label{fig:exp_with_errs}
+\end{figure}
+
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
